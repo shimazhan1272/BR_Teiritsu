@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ボートレース定率法</title>
+  <meta name="description" content="1レースの賭け金をその時点の資金の一定割合に固定する、ボートレース用の資金管理アプリ">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="lanes" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <h1>ボートレース定率法</h1>
+  </header>
+
+  <main>
+    <!-- 初期設定 -->
+    <section id="setup" class="card" hidden>
+      <h2>資金の設定</h2>
+      <form id="setup-form" novalidate>
+        <label class="field">
+          <span>軍資金(円)</span>
+          <input id="setup-capital" type="number" inputmode="numeric" min="100" step="1" placeholder="例:10000" required>
+        </label>
+        <label class="field">
+          <span>1レースに使う割合(%)</span>
+          <input id="setup-rate" type="number" inputmode="decimal" min="0.1" max="100" step="0.1" value="5" required>
+        </label>
+        <p id="setup-error" class="error" role="alert"></p>
+        <button class="btn btn-primary" type="submit">開始する</button>
+      </form>
+    </section>
+
+    <!-- メイン -->
+    <div id="app" hidden>
+      <section class="hero">
+        <p class="hero-label">現在の資金</p>
+        <p class="hero-capital"><span id="current">0</span><small>円</small></p>
+        <div class="stake-row">
+          <div>
+            <p class="hero-label">次のレースの賭け金</p>
+            <p class="hero-stake"><span id="stake">0</span><small>円</small></p>
+          </div>
+          <label class="rate">
+            <span class="hero-label">割合</span>
+            <span class="rate-input"><input id="rate" type="number" inputmode="decimal" min="0.1" max="100" step="0.1" aria-label="1レースに使う割合(%)"><b>%</b></span>
+          </label>
+        </div>
+        <p id="stake-note" class="hero-note"></p>
+      </section>
+
+      <section class="stats" aria-label="成績">
+        <div><dt>軍資金</dt><dd id="s-capital"></dd></div>
+        <div><dt>収支</dt><dd id="s-profit"></dd></div>
+        <div><dt>回収率</dt><dd id="s-return"></dd></div>
+        <div><dt>的中率</dt><dd id="s-hit"></dd></div>
+      </section>
+
+      <section class="card">
+        <h2>レース結果の入力</h2>
+        <div class="race-fields">
+          <label class="field field-date">
+            <span>日付</span>
+            <input id="date" type="date" required>
+          </label>
+          <label class="field">
+            <span>レース場</span>
+            <select id="venue" required></select>
+          </label>
+          <label class="field">
+            <span>レース</span>
+            <select id="race" required></select>
+          </label>
+        </div>
+        <p id="race-error" class="error" role="alert"></p>
+        <div class="result-buttons">
+          <button id="btn-hit" class="btn btn-hit" type="button">的中</button>
+          <button id="btn-miss" class="btn btn-miss" type="button">不的中</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="history-head">
+          <h2>履歴</h2>
+          <button id="btn-undo" class="btn-link" type="button">直前の記録を取り消す</button>
+        </div>
+        <p id="history-empty" class="empty">まだ記録がありません。</p>
+        <ol id="history" class="history"></ol>
+      </section>
+
+      <button id="btn-reset" class="btn-link btn-reset" type="button">すべてリセットして軍資金を設定し直す</button>
+    </div>
+  </main>
+
+  <!-- 的中時の払戻入力 -->
+  <dialog id="hit-dialog" class="dialog">
+    <form id="hit-form" novalidate>
+      <h2>的中の記録</h2>
+      <p id="hit-summary" class="dialog-summary"></p>
+      <label class="field">
+        <span>オッズ(倍)</span>
+        <input id="odds" type="number" inputmode="decimal" min="1" step="0.1" placeholder="例:12.3">
+      </label>
+      <label class="field">
+        <span>払戻金額(円)</span>
+        <input id="payout" type="number" inputmode="numeric" min="1" step="1" required>
+      </label>
+      <p class="hint">オッズを入れると賭け金×オッズで自動計算します。複数点買いのときは払戻金額を直接入力してください。</p>
+      <p id="hit-error" class="error" role="alert"></p>
+      <div class="dialog-actions">
+        <button id="hit-cancel" class="btn btn-ghost" type="button">キャンセル</button>
+        <button class="btn btn-hit" type="submit">記録する</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- 確認 -->
+  <dialog id="confirm-dialog" class="dialog">
+    <h2 id="confirm-title"></h2>
+    <p id="confirm-text" class="dialog-summary"></p>
+    <div class="dialog-actions">
+      <button id="confirm-no" class="btn btn-ghost" type="button">やめる</button>
+      <button id="confirm-yes" class="btn btn-danger" type="button"></button>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
