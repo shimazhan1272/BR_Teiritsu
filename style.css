@@ -113,7 +113,7 @@ main {
   color-scheme: light;
 }
 .hero-note { margin-top: 8px; font-size: .8rem; color: var(--on-navy-muted); }
-.hero-note.warn { color: #ffd54f; font-weight: 600; }
+.hero-note.warn { color: #ffd54f; font-size: 1.05rem; font-weight: 700; }
 
 /* 成績 */
 .stats {
@@ -180,10 +180,10 @@ main {
 
 .error { color: var(--hit); font-size: .85rem; font-weight: 600; }
 .error:not(:empty) { margin-bottom: 10px; }
-.hint { font-size: .78rem; color: var(--muted); margin-bottom: 10px; }
 
 /* 履歴 */
 .history-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.history-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px 14px; }
 .empty { color: var(--muted); font-size: .9rem; }
 .history { list-style: none; }
 .history li { padding: 10px 0; border-top: 1px solid var(--line); }

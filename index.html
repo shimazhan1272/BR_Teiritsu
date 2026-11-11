@@ -82,7 +82,10 @@
       <section class="card">
         <div class="history-head">
           <h2>履歴</h2>
-          <button id="btn-undo" class="btn-link" type="button">直前の記録を取り消す</button>
+          <div class="history-actions">
+            <button id="btn-csv" class="btn-link" type="button">CSVで出力</button>
+            <button id="btn-undo" class="btn-link" type="button">直前の記録を取り消す</button>
+          </div>
         </div>
         <p id="history-empty" class="empty">まだ記録がありません。</p>
         <ol id="history" class="history"></ol>
@@ -98,14 +101,9 @@
       <h2>的中の記録</h2>
       <p id="hit-summary" class="dialog-summary"></p>
       <label class="field">
-        <span>オッズ(倍)</span>
-        <input id="odds" type="number" inputmode="decimal" min="1" step="0.1" placeholder="例:12.3">
-      </label>
-      <label class="field">
         <span>払戻金額(円)</span>
         <input id="payout" type="number" inputmode="numeric" min="1" step="1" required>
       </label>
-      <p class="hint">オッズを入れると賭け金×オッズで自動計算します。複数点買いのときは払戻金額を直接入力してください。</p>
       <p id="hit-error" class="error" role="alert"></p>
       <div class="dialog-actions">
         <button id="hit-cancel" class="btn btn-ghost" type="button">キャンセル</button>
